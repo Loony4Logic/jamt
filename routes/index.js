@@ -5,5 +5,6 @@ const router = express.Router();
 
 /* GET home page. */
 router.get("/", indexController.home);
+router.get("/logs", indexController.logSender);
 
 export default router;

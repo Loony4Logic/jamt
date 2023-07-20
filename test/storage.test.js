@@ -8,7 +8,6 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  console.log("I am being called atleast!");
   await storage.clear();
 });
 
