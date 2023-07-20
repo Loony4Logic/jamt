@@ -9,6 +9,11 @@ function home(req, res) {
   res.json({ res: "Server Working" });
 }
 
+function logSender(req, res) {
+  const logs = storage.read();
+  res.json({ data: logs, meta: { message: "Logs sent", count: logs.length } });
+}
+
 function listener(req, res) {
   try {
     const log = req.body;
@@ -20,4 +25,4 @@ function listener(req, res) {
   }
 }
 
-export default { home, listener };
+export default { home, listener, logSender };
