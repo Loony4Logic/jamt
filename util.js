@@ -11,17 +11,19 @@ dotenv.config();
 
 /**
  *
+ * a placeholder to substitude some actual function for fast dev purpose.
+ *
  * @param {*} data any data that you want as return from the function after mentioned time
  * @param {number} time in ms
- * @returns Promise
+ * @returns {Promise} promise that can act as placeholder
  *
- * Call is either with chaining or async await
- *
+ * @example
  * ()=>{asyncPlaceholder("hello", 1000).then(res=>console.log(res))}
  *
+ * @example
  * async ()=>{let res = await asyncPlaceholder("hello", 1000); console.log(res)}
  */
-const asyncPlaceholders = (data, time) => new Promise((resolve) => {
+export const asyncPlaceholders = (data, time) => new Promise((resolve) => {
   setTimeout(() => resolve(data), time);
 });
 
