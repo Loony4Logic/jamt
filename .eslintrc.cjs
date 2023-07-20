@@ -29,7 +29,8 @@ module.exports = {
           ["#middleware", "./middleware"],
           ["#controller", "./controller"],
           ["#services", "./services"],
-          ["#error", "./error"]
+          ["#error", "./error"], 
+          ["#storage", "./storage"]
         ],
         "extensions": [".js"]
       }
