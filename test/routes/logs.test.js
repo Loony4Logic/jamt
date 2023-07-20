@@ -19,7 +19,7 @@ describe("checking logs services", () => {
       .get("/logs")
       .then((response) => {
         expect(response.status).toBe(200);
-        expect(response.body.meta.count).toBe(0);
+        expect(response.body.meta.message).toBe("Logs sent");
         done();
       });
   });
