@@ -16,7 +16,8 @@ export class StorageProvider {
      * @param {string} [fileName = "db.json"] filename to be used to store the logs.
      */
   constructor(fileName = "db.json") {
-    this.file = join(currDirName, fileName);
+    this.fileName = fileName;
+    this.file = join(currDirName, this.fileName);
     this.adapter = new JSONFile(this.file);
     this.defaultData = { logs: [] };
     this.db = new Low(this.adapter, this.defaultData);
@@ -50,5 +51,13 @@ export class StorageProvider {
      */
   read() {
     return this.logs;
+  }
+
+  /**
+   * removes all the data from json.
+   */
+  clear() {
+    this.db.data.logs.length = 0;
+    this.db.write();
   }
 }
