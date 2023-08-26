@@ -23,4 +23,16 @@ describe("Testing database", () => {
     const logs = storage.read();
     expect(logs[0]).toStrictEqual(log);
   });
+
+  it("Checking filter", () => {
+    const logs = [
+      { level: "test", message: "test", timestamp: "test" },
+      { level: "test", message: "xyz", timestamp: "test" },
+    ];
+    logs.forEach((log) => storage.write(log));
+
+    const filterText = "xyz";
+    const filteredLogs = storage.filter(filterText);
+    expect(filteredLogs.length).toBe(1);
+  });
 });
