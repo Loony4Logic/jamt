@@ -54,6 +54,20 @@ export class StorageProvider {
   }
 
   /**
+   * returns all the logs that have filterText in one of the Keys
+   *
+   *
+   * @param {string} filterText text by which you want to search all the logs
+   * @returns {Array} Returns array of logs that have filter text
+   */
+  filter(filterText) {
+    return this.logs.filter((log) => {
+      if (Object.values(log).join(" ").includes(filterText)) return log;
+      return false;
+    });
+  }
+
+  /**
    * removes all the data from json.
    */
   clear() {
