@@ -10,7 +10,13 @@ function home(req, res) {
 }
 
 function logSender(req, res) {
-  const logs = storage.read();
+  const { query } = req;
+  let logs;
+  if (query.q && query.q !== "") {
+    logs = storage.filter(query.q);
+  } else {
+    logs = storage.read();
+  }
   res.json({ data: logs, meta: { message: "Logs sent", count: logs.length } });
 }
 
