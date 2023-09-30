@@ -5,6 +5,14 @@ const storage = new StorageProvider(); // eslint-disable-line no-unused-vars
 // as storage setup takes time and async can't be used
 await asyncPlaceholders("sleep", 500);
 
+
+/**
+ * @api {get} / Retrieve Home Information
+ * @apiName GetIndex
+ * @apiGroup Index
+ *
+ * @apiSuccess {String} res server 
+ */
 function home(req, res) {
   res.json({ res: "Server Working" });
 }
@@ -20,6 +28,18 @@ function logSender(req, res) {
   res.json({ data: logs, meta: { message: "Logs sent", count: logs.length } });
 }
 
+/**
+ * @api {get} /listener Log listener 
+ * @apiName logCapturer
+ * @apiGroup logs
+ * 
+ * @apiBody {Object} log Log you need to record
+ * @apiBody {Timestamp} log.timestamp Time stamp of log generation
+ * @apiBody {String} log.message Log message to be recorded
+ * @apiBody {String} log.level Level of log. can be any arbitary string. It is used for grouping logs 
+ * 
+ * @apiSuccess {String="log recorded", error message} meta.message Log recoded
+ */
 function listener(req, res) {
   try {
     const log = req.body;
