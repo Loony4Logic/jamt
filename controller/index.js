@@ -17,6 +17,22 @@ function home(req, res) {
   res.json({ res: "Server Working" });
 }
 
+/**
+ * @api {get} /logs log sender
+ * @apiName logSender
+ * @apiGroup logs
+ * 
+ * @apiParam {String} [q] query string used for filtering
+ * 
+ * @apiSuccess {Object[]} data List of logs
+ * @apiSuccess {String} data.message Log Message
+ * @apiSuccess {String} data.level Log level
+ * @apiSuccess {String} data.timestamp Timestamp of log generated
+ * @apiSuccess {Object} meta Meta data for logs
+ * @apiSuccess {String="Logs sent"} meta.message message about logs 
+ * @apiSuccess {Number} meta.count Count of logs 
+ *  
+ */
 function logSender(req, res) {
   const { query } = req;
   let logs;
