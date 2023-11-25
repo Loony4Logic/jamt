@@ -7,7 +7,7 @@ await asyncPlaceholders("sleep", 500);
 
 
 /**
- * @api {get} / Retrieve Home Information
+ * @api {get} api/ Retrieve Home Information
  * @apiName GetIndex
  * @apiGroup Index
  *
@@ -18,7 +18,7 @@ function home(req, res) {
 }
 
 /**
- * @api {get} /logs log sender
+ * @api {get} api/logs log sender
  * @apiName logSender
  * @apiGroup logs
  * 
@@ -45,7 +45,7 @@ function logSender(req, res) {
 }
 
 /**
- * @api {get} /listener Log listener 
+ * @api {post} api/listener Log listener 
  * @apiName logCapturer
  * @apiGroup logs
  * 

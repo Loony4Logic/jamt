@@ -21,6 +21,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(currDirName, "public")));
 
-app.use("/", indexRouter);
+app.use("/api", indexRouter);
 
 export default app;
