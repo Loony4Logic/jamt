@@ -98,33 +98,13 @@ function setupLogMonitor(serverPort) {
   server.on('error', onError);
   server.on('listening', onListening);
 
-  /**
-   * Set Frontend server port
-   */
-  const data = normalizePort(port);
-  readFile(
-    path.join(currDirName, 'public', 'assets', 'index-6bf653a8.js'),
-    'utf-8',
-    function (err, contents) {
-      if (err) {
-        console.log(err);
-        return;
-      }
-
-      const replaced = contents.replace(/localhost:(\d*)/gm, `localhost:${data}`);
-
-      writeFile(
-        path.join(currDirName, 'public', 'assets', 'index-6bf653a8.js'),
-        replaced,
-        'utf-8',
-        function (err) {
-          console.log(err);
-        }
-      );
-    }
-  );
 }
 
+/**
+ * 
+ * @param {Array<String>} rawArgs arguments recived from process 
+ * @returns {{port: number, skipPrompts: boolean}} argumets recived as cli input to the process in object form 
+ */
 function parseArgumentsIntoOptions(rawArgs) {
   const args = arg(
     {
@@ -142,6 +122,11 @@ function parseArgumentsIntoOptions(rawArgs) {
   };
 }
 
+/**
+ * 
+ * @param {{port: number, skipPrompts: boolean}} options Options recived should be shared 
+ * @returns {{port: number, skipPrompts: boolean}} arguments after processing and promting for missing inputs
+ */
 async function promptForMissingOptions(options) {
   if (options.skipPrompts) {
     return {
@@ -167,9 +152,17 @@ async function promptForMissingOptions(options) {
   };
 }
 
+/**
+ * 
+ * @param {Array<string>} args argumets revied to process as cli input
+ * 
+ * processes cli inputs and starts the server for monitoring and dashboard 
+ */
 export async function cli(args) {
   let options = parseArgumentsIntoOptions(args);
   options = await promptForMissingOptions(options);
   setupLogMonitor(options.port);
-  console.log("Monitoring server setup at "+options.port)
+  console.log("Monitoring server setup at "+ options.port)
+  console.log(`For api docs go to: http://localhost:${options.port}/docs`)
+  console.log(`For Monitoring dashboard go to: http://localhost:${options.port}/`)
 }
