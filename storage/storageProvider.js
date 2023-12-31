@@ -31,7 +31,6 @@ export class StorageProvider {
    */
   constructor(fileName = '0') {
     this.file = join(currDirName, `${fileName}-db.sqlite`);
-    console.log(this.file);
     this.sequelize = new Sequelize({
       dialect: 'sqlite',
       storage: this.file,
