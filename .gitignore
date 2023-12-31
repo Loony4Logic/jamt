@@ -134,3 +134,4 @@ apidoc
 
 # ignore files genrated for storage
 storage/*.json 
+storage/*db*

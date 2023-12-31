@@ -3,7 +3,7 @@ import { asyncPlaceholders, logger } from "#util";
 
 const storage = new StorageProvider(); // eslint-disable-line no-unused-vars
 // as storage setup takes time and async can't be used
-await asyncPlaceholders("sleep", 500);
+await asyncPlaceholders("sleep", 1500);
 
 
 /**
@@ -33,13 +33,13 @@ function home(req, res) {
  * @apiSuccess {Number} meta.count Count of logs 
  *  
  */
-function logSender(req, res) {
+async function logSender(req, res) {
   const { query } = req;
   let logs;
   if (query.q && query.q !== "") {
-    logs = storage.filter(query.q);
+    logs = await storage.filter(query.q);
   } else {
-    logs = storage.read();
+    logs = await storage.read();
   }
   res.json({ data: logs, meta: { message: "Logs sent", count: logs.length } });
 }
@@ -56,10 +56,10 @@ function logSender(req, res) {
  * 
  * @apiSuccess {String="log recorded", error message} meta.message Log recoded
  */
-function listener(req, res) {
+async function listener(req, res) {
   try {
     const log = req.body;
-    storage.write(log);
+    await storage.write(log);
     res.json({ data: [], meta: { message: "log recorded" } });
   } catch (err) {
     res.json({ data: [], meta: { message: err.message } });

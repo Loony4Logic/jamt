@@ -1,56 +1,72 @@
-import { join, dirname } from "node:path";
-import { fileURLToPath } from "node:url";
+import { join, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-import { Low } from "lowdb";
-import { JSONFile } from "lowdb/node";
-import { logger } from "#util";
+import { Low } from 'lowdb';
+import { JSONFile } from 'lowdb/node';
+import { logger } from '#util';
 
 const currDirName = dirname(fileURLToPath(import.meta.url));
 
-/**
- * creates a storage.
- */
+
+import { Sequelize, DataTypes, Op } from 'sequelize';
+
+const LogStruct = {
+  timestamp: {
+    type: DataTypes.DATE,
+    allowNull: false,
+  },
+  level: {
+    type: DataTypes.TEXT,
+  },
+  message: {
+    type: DataTypes.TEXT('long'),
+    allowNull: false,
+  },
+};
+
 export class StorageProvider {
   /**
-     * creates a file and stores data in it.
-     * @param {string} [fileName = "db.json"] filename to be used to store the logs.
-     */
-  constructor(fileName = "db.json") {
-    this.fileName = fileName;
-    this.file = join(currDirName, this.fileName);
-    this.adapter = new JSONFile(this.file);
-    this.defaultData = { logs: [] };
-    this.db = new Low(this.adapter, this.defaultData);
-    const setLogs = () => {
-      this.logs = this.db.data.logs;
-      logger.info("storage file set and ready to use");
-    };
-    this.db.read().then(() => setLogs());
+   * creates a file and stores data in it.
+   * @param {string} [fileName = "db.sqlite"] filename to be used to store the logs.
+   */
+  constructor(fileName = '0') {
+    this.file = join(currDirName, `${fileName}-db.sqlite`);
+    this.sequelize = new Sequelize({
+      dialect: 'sqlite',
+      storage: this.file,
+    });
+    this.Log = this.sequelize.define("Log", LogStruct);
+    this.Log.sync();
+    console.log("DB setup complted")
   }
 
   /**
-     * pass the log to be stored in the database.
-     * @param {json} log - object you want to store.
-     *
-     * @example
-     * write({
-     * "level": "error",
-     * "message": "something went wrong",
-     * "timestamp": "23-05-2023 02:38:47.807 AM"})
-     */
-  write(log) {
-    if (!this.logs) throw new Error("DB not yet set");
-    this.logs.push(log);
-    this.db.write();
+   * pass the log to be stored in the database.
+   * @param {json} log - object you want to store.
+   *
+   * @example
+   * write({
+   * "level": "error",
+   * "message": "something went wrong",
+   * "timestamp": "23-05-2023 02:38:47.807 AM"})
+   */
+  async write(log) {
+    if (!this.Log) throw new Error('DB not yet set');
+    const newLog = await this.Log.create({
+      timestamp: log.timestamp,
+      level: log.level,
+      message: log.message
+    }) 
   }
 
   /**
-     * reads all the contents from the databse
-     *
-     * @returns {Array} [{"level": str, "message": str, "timestamp": str, ...}]
-     */
-  read() {
-    return this.logs;
+   * reads all the contents from the databse
+   *
+   * @returns {Array} [{"level": str, "message": str, "timestamp": str, ...}]
+   */
+  async read() {
+    const logs = await this.Log.findAll();
+    return logs;
   }
 
   /**
@@ -60,18 +76,20 @@ export class StorageProvider {
    * @param {string} filterText text by which you want to search all the logs
    * @returns {Array} Returns array of logs that have filter text
    */
-  filter(filterText) {
-    return this.logs.filter((log) => {
-      if (Object.values(log).join(" ").includes(filterText)) return log;
-      return false;
-    });
+  async filter(filterText) {
+    let res = await this.Log.getAll({
+      where:{
+        [Op.substring]: filterText,
+      }
+    })
+
+    return res;
   }
 
   /**
    * removes all the data from json.
    */
-  clear() {
-    this.db.data.logs.length = 0;
-    this.db.write();
+  async clear() {
+    await this.Log.drop();
   }
 }
