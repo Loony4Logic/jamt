@@ -83,11 +83,11 @@ const logger = {
         post("info", msg);
     },
     warn = (msg) => {
-        console.log(msg);
+        console.warn(msg);
         post("warn", msg);
     },
     error = (msg) => {
-        console.log(msg);
+        console.err(msg);
         post("error", msg);
     }
 }
