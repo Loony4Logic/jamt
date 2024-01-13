@@ -114,9 +114,9 @@ JAMT is licensed under the MIT License. See the LICENSE file for details.
 ## Contact
 Have questions or need support? Feel free to contact us.
 
-Hitansh Doshi: [linkedId](https://www.linkedin.com/in/hitansh-doshi-b81530197/)
+Hitansh Doshi: [linkedIn](https://www.linkedin.com/in/hitansh-doshi-b81530197/)
 
-Harshit Daga: [linkedId](https://www.linkedin.com/in/harshit-daga-0476541ba/)
+Harshit Daga: [linkedIn](https://www.linkedin.com/in/harshit-daga-0476541ba/)
 
 
 ## Enjoy Simple Log Monitoring with JAMT!
