@@ -103,10 +103,10 @@ logger.error('Oops! An error occurred.');
 JAMT currently have only one configurable setting, port, for monitoring and dashboard UI. 
 
 ## Examples
-Check out the examples directory for sample configurations and use cases to help you get started quickly.
+Coming out soon!!
 
 ## Contributing
-We welcome contributions! If you find a bug, have a feature request, or want to contribute code, please follow our contribution guidelines.
+We welcome contributions! If you find a bug, have a feature request, or want to contribute code, please raise issue. 
 
 ## License
 JAMT is licensed under the MIT License. See the LICENSE file for details.
